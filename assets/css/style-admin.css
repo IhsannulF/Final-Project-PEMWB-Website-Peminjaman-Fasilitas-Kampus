@@ -135,8 +135,8 @@ body {
 
 /* Efek Hover untuk tombol kembali ke beranda di Dashboard */
 .btn-back-home:hover {
-    background-color: #2d3240 !important;
-    border-color: #009EF7 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 158, 247, 0.15);
+  background-color: #2d3240 !important;
+  border-color: #009ef7 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 158, 247, 0.15);
 }
