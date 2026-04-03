@@ -13,22 +13,46 @@ $result_fasilitas = mysqli_query($koneksi, $query_fasilitas);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cari Jadwal Fasilitas - SI-PINJAM</title>
     
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style-landing.css">
     <link rel="stylesheet" href="assets/css/style-jadwal.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              sipblue: '#009EF7',    /* Biru Utama */
+              sipred: '#DE2828',     /* Merah Aksen / Booked */
+              sipdark: '#1c202a',    /* Background Gelap */
+              sipcard: '#16181e',    /* Card Gelap */
+              sipslate: '#64748B'    /* Teks Abu-abu */
+            }
+          }
+        }
+      }
+      </script>
 </head>
+
 <body style="background-color: var(--bg-dark-wrapper);">
 
     <nav class="navbar header-sticky p-3" style="width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05);">
-        <div class="container" style="display: flex; align-items: center; width: 100%;">
-            <a href="index.php" class="logo-text text-decoration-none">SI-PINJAM UPNVJT</a>
+        <div class="container-fluid px-4" style="display: flex; justify-content: space-between; align-items: center;">
             
-            <a href="index.php" class="btn-back-nav" style="margin-left: auto;">
+            <a href="index.php" class="logo-text text-decoration-none" style="font-size: 1.25rem; font-weight: 700; color: #fff;">
+                SI-PINJAM UPNVJT
+            </a>
+            
+            <a href="index.php" class="btn-back-nav">
                 <i class="fas fa-arrow-left"></i> Kembali ke Beranda
             </a>
+            
         </div>
     </nav>
 
@@ -69,8 +93,7 @@ $result_fasilitas = mysqli_query($koneksi, $query_fasilitas);
                             // Berikan class 'active' HANYA pada fasilitas urutan pertama
                             $active_class = $is_first ? 'active' : '';
                     ?>
-                    
-                        <div class="facility-card <?php echo $active_class; ?>" data-id="<?php echo $row['id_fasilitas']; ?>">
+                    <div class="facility-card <?php echo $active_class; ?>" data-id="<?php echo $row['id_fasilitas']; ?>">
                             <div class="facility-img">
                                 <i class="<?php echo $row['ikon']; ?> fa-2x"></i>
                             </div>
@@ -95,10 +118,16 @@ $result_fasilitas = mysqli_query($koneksi, $query_fasilitas);
             <div class="col-lg-8">
                 <div class="calendar-white-card">
                     
-                    <div class="calendar-header">
-                        <button class="btn-cal-nav"><i class="fas fa-chevron-left"></i></button>
-                        <h3 id="calendarMonthYear" class="mb-0 text-dark fw-bold">April 2026</h3>
-                        <button class="btn-cal-nav"><i class="fas fa-chevron-right"></i></button>
+                    <div class="flex justify-between items-center w-full mb-8">
+                        <button id="prevMonth" class="text-2xl text-gray-800 hover:bg-gray-200 p-3 rounded-full transition-colors duration-200">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="calendarMonthYear" class="text-3xl font-bold text-gray-800 text-center flex-grow m-0">
+                            Bulan Tahun
+                        </h3>
+                        <button id="nextMonth" class="text-2xl text-gray-800 hover:bg-gray-200 p-3 rounded-full transition-colors duration-200">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
 
                     <div class="calendar-legend mb-3 d-flex justify-content-center gap-4">

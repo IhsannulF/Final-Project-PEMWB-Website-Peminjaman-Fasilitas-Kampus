@@ -38,7 +38,7 @@ if (isset($_SESSION['user_id'])) {
                             <li><a href="#perbandingan" class="nav-link">Hak Akses</a></li>
                             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                         <li>
-                            <a href="admin_dashboard.php" class="btn-admin-nav">
+                            <a href="dashboard_admin.php" class="btn-admin-nav">
                                 <i class="fas fa-user-shield"></i> Panel Admin
                             </a>
                         </li>
@@ -80,7 +80,7 @@ if (isset($_SESSION['user_id'])) {
             </a>
             
         <?php elseif($_SESSION['role'] === 'admin'): ?>
-            <a href="admin_dashboard.php" class="outline-button" style="background-color: #64748B; color: white; border-color: #64748B;">
+            <a href="dashboard_admin.php" class="outline-button" style="background-color: #64748B; color: white; border-color: #64748B;">
                 <i class="fas fa-user-shield"></i> Masuk Panel Admin
             </a>
             

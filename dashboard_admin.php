@@ -35,13 +35,13 @@ $nama_admin = $_SESSION['nama_lengkap'];
 
         <ul class="list-unstyled components">
                 <li class="active">
-                    <a href="admin_dashboard.php"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="dashboard_admin.php"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="index.php" target="_blank"><i class="fas fa-external-link-alt"></i> Lihat Situs</a>
+                    <a href="index.php"><i class="fas fa-external-link-alt"></i> Lihat Situs</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fas fa-building"></i> Kelola Fasilitas</a>
+                    <a href="admin_fasilitas.php"><i class="fas fa-building"></i> Kelola Fasilitas</a>
                 </li>
                 <li>
                     <a href="#"><i class="fas fa-clipboard-list"></i> Antrean Pinjaman</a>
