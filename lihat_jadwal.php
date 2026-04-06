@@ -81,38 +81,39 @@ $result_fasilitas = mysqli_query($koneksi, $query_fasilitas);
         <div class="row mt-5">
             <div class="col-lg-4 mb-4">
                 <h4 class="text-white mb-4">Daftar Fasilitas</h4>
-                <div class="facility-list">
-                    
-                    <?php 
-                    // Cek apakah ada data di database
-                    if(mysqli_num_rows($result_fasilitas) > 0) {
-                        $is_first = true; // Variabel penanda untuk fasilitas pertama
-                        
-                        // Keluarkan data satu per satu
-                        while($row = mysqli_fetch_assoc($result_fasilitas)) { 
-                            // Berikan class 'active' HANYA pada fasilitas urutan pertama
-                            $active_class = $is_first ? 'active' : '';
-                    ?>
-                    <div class="facility-card <?php echo $active_class; ?>" data-id="<?php echo $row['id_fasilitas']; ?>">
-                            <div class="facility-img">
-                                <i class="<?php echo $row['ikon']; ?> fa-2x"></i>
-                            </div>
-                            <div class="facility-info">
-                                <h5><?php echo $row['nama_fasilitas']; ?></h5>
-                                <p>Kapasitas: <?php echo $row['kapasitas']; ?> Orang</p>
-                            </div>
-                        </div>
+                <div class="max-h-[550px] overflow-y-auto pr-3 space-y-4 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#2d3240] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#64748B]">
+    
+    <?php 
+    if(mysqli_num_rows($result_fasilitas) > 0) {
+        $is_first = true; 
+        
+        while($row = mysqli_fetch_assoc($result_fasilitas)) { 
+            $active_class = $is_first ? 'active' : '';
+    ?>
+    
+        <div class="facility-card <?php echo $active_class; ?>" 
+             data-id="<?php echo $row['id_fasilitas']; ?>"
+             data-nama="<?php echo strtolower($row['nama_fasilitas']); ?>"
+             data-kategori="<?php echo strtolower($row['kategori']); ?>">
+             
+            <div class="facility-img">
+                <i class="<?php echo $row['ikon']; ?> fa-2x"></i>
+            </div>
+            <div class="facility-info">
+                <h5><?php echo $row['nama_fasilitas']; ?></h5>
+                <p>Kapasitas: <?php echo $row['kapasitas']; ?> Orang</p>
+            </div>
+        </div>
 
-                    <?php 
-                            $is_first = false; // Ubah penanda agar card berikutnya tidak ikut active
-                        } 
-                    } else {
-                        // Tampilan jika tabel fasilitas masih kosong
-                        echo '<p class="text-slate">Belum ada data fasilitas.</p>';
-                    }
-                    ?>
-
-                </div>
+    <?php 
+            $is_first = false; 
+        } 
+    } else {
+        echo '<p class="text-slate-400">Belum ada data fasilitas.</p>';
+    }
+    ?>
+    
+</div>
             </div>
 
             <div class="col-lg-8">

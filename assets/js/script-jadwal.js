@@ -96,23 +96,75 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // --- EFEK KLIK DAFTAR FASILITAS (KIRI) ---
   // --- EFEK KLIK DAFTAR FASILITAS (KIRI) ---
-    const facilityCards = document.querySelectorAll(".facility-card");
-    facilityCards.forEach(card => {
-        card.addEventListener("click", function() {
-            // Hapus class active dari semua kartu
-            facilityCards.forEach(c => c.classList.remove("active"));
-            
-            // Tambahkan class active ke kartu yang diklik
-            this.classList.add("active");
-            
-            // Tangkap ID fasilitas dari atribut data-id
-            currentFacilityId = this.getAttribute("data-id");
-            
-            // Tampilkan di Console Browser untuk memastikan ID-nya benar
-            console.log("Memuat data untuk Fasilitas ID:", currentFacilityId);
-            
-            // Load ulang kalendernya!
-            fetchAndRenderCalendar(); 
-        });
+  const facilityCards = document.querySelectorAll(".facility-card");
+  facilityCards.forEach((card) => {
+    card.addEventListener("click", function () {
+      // Hapus class active dari semua kartu
+      facilityCards.forEach((c) => c.classList.remove("active"));
+
+      // Tambahkan class active ke kartu yang diklik
+      this.classList.add("active");
+
+      // Tangkap ID fasilitas dari atribut data-id
+      currentFacilityId = this.getAttribute("data-id");
+
+      // Tampilkan di Console Browser untuk memastikan ID-nya benar
+      console.log("Memuat data untuk Fasilitas ID:", currentFacilityId);
+
+      // Load ulang kalendernya!
+      fetchAndRenderCalendar();
     });
+  });
+
+  // --- FITUR PENCARIAN FASILITAS REAL-TIME ---
+  const searchInput = document.getElementById("searchFacility");
+  const kategoriSelect = document.getElementById("kategori");
+  const btnSearch = document.querySelector(".btn-search-airbnb");
+
+  // Fungsi untuk menyaring/memfilter fasilitas
+  function filterFasilitas() {
+    const keyword = searchInput.value.toLowerCase();
+    const kategori = kategoriSelect.value.toLowerCase();
+
+    let adaYangCocok = false;
+    let fasilitasPertama = null;
+
+    // Cek setiap kartu fasilitas
+    facilityCards.forEach((card) => {
+      const namaFasilitas = card.getAttribute("data-nama");
+      const kategoriFasilitas = card.getAttribute("data-kategori");
+
+      // Cocokkan kata kunci dan kategori
+      const cocokNama = namaFasilitas.includes(keyword);
+      const cocokKategori =
+        kategori === "semua" || kategoriFasilitas === kategori;
+
+      if (cocokNama && cocokKategori) {
+        card.style.display = "flex"; // Tampilkan kartu
+        adaYangCocok = true;
+        if (!fasilitasPertama) fasilitasPertama = card; // Simpan kartu pertama yang muncul
+      } else {
+        card.style.display = "none"; // Sembunyikan kartu
+      }
+    });
+
+    // (Opsional) Otomatis klik fasilitas paling atas hasil pencarian untuk update kalender
+    if (fasilitasPertama && !fasilitasPertama.classList.contains("active")) {
+      fasilitasPertama.click();
+    }
+  }
+
+  // Jalankan filter setiap kali user mengetik (Real-time)
+  searchInput.addEventListener("keyup", filterFasilitas);
+
+  // Jalankan filter setiap kali user mengubah dropdown kategori
+  kategoriSelect.addEventListener("change", filterFasilitas);
+
+  // Jalankan filter saat tombol 'Cari' diklik
+  if (btnSearch) {
+    btnSearch.addEventListener("click", function (e) {
+      e.preventDefault(); // Mencegah reload halaman
+      filterFasilitas();
+    });
+  }
 });
