@@ -66,11 +66,12 @@ $result_fasilitas = mysqli_query($koneksi, $query_fasilitas);
             <div class="search-divider"></div>
             <div class="search-item" class="container" style="display: flex; align-items: center; width: 50%;">
                 <label>Kategori</label>
-                <select id="kategori">
+                <select id="kategori" class="w-full bg-transparent border-none outline-none text-sm text-gray-500 cursor-pointer pr-5">
                     <option value="semua">Semua Kategori</option>
                     <option value="gsg">Gedung Serba Guna</option>
                     <option value="lab">Laboratorium</option>
                     <option value="kelas">Ruang Kelas</option>
+                    <option value="rapat">Ruang Rapat</option>
                 </select>
             </div>
             <button class="btn-search-airbnb">

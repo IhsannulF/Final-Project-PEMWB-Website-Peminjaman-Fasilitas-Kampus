@@ -149,6 +149,7 @@ if (isset($_POST['buka_blokir'])) {
                                         <option value="gsg">GSG</option>
                                         <option value="lab">Lab</option>
                                         <option value="kelas">Kelas</option>
+                                        <option value="rapat">Ruang Rapat</option>
                                     </select>
                                 </div>
                                 <div>
@@ -217,44 +218,75 @@ if (isset($_POST['buka_blokir'])) {
 
             <div class="lg:col-span-2 space-y-8">
                 
-                <div class="bg-sipdark border border-sipborder rounded-2xl p-6 shadow-lg overflow-x-auto">
-                    <h2 class="text-lg font-bold mb-4">Daftar Fasilitas Sistem</h2>
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-sipborder text-siptext text-sm">
-                                <th class="pb-3 px-2">Fasilitas</th>
-                                <th class="pb-3 px-2">Kapasitas</th>
-                                <th class="pb-3 px-2 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $q_fasilitas = mysqli_query($koneksi, "SELECT * FROM fasilitas ORDER BY id_fasilitas DESC");
-                            while($row = mysqli_fetch_assoc($q_fasilitas)):
-                            ?>
-                            <tr class="border-b border-sipborder/50 hover:bg-sipbg/50 transition">
-                                <td class="py-3 px-2 flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded bg-sipbg flex items-center justify-center text-sipblue"><i class="<?= $row['ikon'] ?>"></i></div>
-                                    <div>
-                                        <div class="font-semibold text-sm"><?= $row['nama_fasilitas'] ?></div>
-                                        <div class="text-xs text-siptext uppercase"><?= $row['kategori'] ?></div>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-2 text-sm"><?= $row['kapasitas'] ?> Orang</td>
-                                <td class="py-3 px-2 text-right">
-                                    <form method="POST" action="" class="form-hapus">
-                                        <input type="hidden" name="id_hapus" value="<?= $row['id_fasilitas'] ?>">
-                                        <button type="button" onclick="konfirmasiHapus(this)" class="text-red-400 hover:text-red-300 bg-red-400/10 px-3 py-1.5 rounded text-xs font-medium transition">
-                                            Hapus
-                                        </button>
-                                        <button type="submit" name="hapus_fasilitas" class="hidden btn-submit-real"></button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
+                <div class="bg-sipdark border border-sipborder rounded-2xl p-6 shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fas fa-list text-sipblue"></i> Daftar Fasilitas
+        </h2>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-4 border-b border-sipborder/50 pb-4">
+    <button class="filter-btn bg-sipblue text-white border border-sipblue px-4 py-1.5 rounded-full text-xs font-semibold transition" data-filter="semua">Semua</button>
+    <button class="filter-btn bg-sipbg text-siptext border border-sipborder hover:text-white hover:border-siptext px-4 py-1.5 rounded-full text-xs font-semibold transition" data-filter="gsg">GSG</button>
+    <button class="filter-btn bg-sipbg text-siptext border border-sipborder hover:text-white hover:border-siptext px-4 py-1.5 rounded-full text-xs font-semibold transition" data-filter="lab">Lab</button>
+    <button class="filter-btn bg-sipbg text-siptext border border-sipborder hover:text-white hover:border-siptext px-4 py-1.5 rounded-full text-xs font-semibold transition" data-filter="kelas">Kelas</button>
+    <button class="filter-btn bg-sipbg text-siptext border border-sipborder hover:text-white hover:border-siptext px-4 py-1.5 rounded-full text-xs font-semibold transition" data-filter="rapat">Rapat</button>
+</div>
+
+    <div class="max-h-[500px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#2d3240] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#64748B]">
+        
+        <?php
+        $q_fasilitas = mysqli_query($koneksi, "SELECT * FROM fasilitas ORDER BY kategori ASC, nama_fasilitas ASC");
+        $current_category = ""; 
+        
+        if(mysqli_num_rows($q_fasilitas) > 0) {
+            while($row = mysqli_fetch_assoc($q_fasilitas)) {
+                
+                // HEADER KATEGORI (Ditambahkan data-kategori untuk filter JS)
+                if ($current_category !== $row['kategori']) {
+                    $current_category = $row['kategori'];
+                    $display_name = strtoupper($current_category);
+                    if($current_category == 'gsg') $display_name = "Gedung Serba Guna (GSG)";
+                    if($current_category == 'lab') $display_name = "Laboratorium & Komputer";
+                    if($current_category == 'kelas') $display_name = "Ruang Kelas & Teori";
+                    if($current_category == 'rapat') $display_name = "Ruang Rapat & Sidang";
+        ?>
+                    <div class="kategori-header sticky top-0 bg-sipdark z-10 py-2 border-b border-sipblue/30 mb-3 mt-2" data-kategori="<?= $current_category ?>">
+                        <span class="text-xs font-bold tracking-widest text-sipblue uppercase"><?= $display_name ?></span>
+                    </div>
+        <?php 
+                } 
+        ?>
+
+                <div class="fasilitas-item flex items-center justify-between p-4 bg-sipbg/40 border border-sipborder/50 rounded-xl hover:border-sipblue/50 transition-all mb-3 group" data-kategori="<?= $row['kategori'] ?>">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-sipdark flex items-center justify-center text-sipblue group-hover:scale-110 transition-transform">
+                            <i class="<?= $row['ikon'] ?> text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-white"><?= $row['nama_fasilitas'] ?></div>
+                            <div class="text-xs text-siptext">Kapasitas: <?= $row['kapasitas'] ?> Orang</div>
+                        </div>
+                    </div>
+                    
+                    <form method="POST" action="" class="flex items-center">
+                        <input type="hidden" name="id_hapus" value="<?= $row['id_fasilitas'] ?>">
+                        <button type="button" onclick="konfirmasiHapus(this)" class="text-red-400 hover:text-white hover:bg-red-500 bg-red-400/10 p-2.5 rounded-lg transition-all">
+                            <i class="fas fa-trash-alt text-sm"></i>
+                        </button>
+                        <button type="submit" name="hapus_fasilitas" class="hidden btn-submit-real"></button>
+                    </form>
                 </div>
+
+        <?php 
+            }
+        } else {
+            echo '<div class="text-center py-10 text-siptext">Belum ada data fasilitas.</div>';
+        }
+        ?>
+
+    </div>
+</div>
 
                 <div class="bg-sipdark border border-sipborder rounded-2xl p-6 shadow-lg overflow-x-auto">
                     <h2 class="text-lg font-bold mb-4">Jadwal yang Diblokir Admin</h2>
@@ -324,6 +356,47 @@ if (isset($_POST['buka_blokir'])) {
                 }
             });
         }
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const fasilitasItems = document.querySelectorAll('.fasilitas-item');
+        const kategoriHeaders = document.querySelectorAll('.kategori-header');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                
+                // 1. Reset warna semua tombol kembali ke abu-abu
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-sipblue', 'text-white', 'border-sipblue');
+                    b.classList.add('bg-sipbg', 'text-siptext', 'border-sipborder');
+                });
+                
+                // 2. Warnai tombol yang sedang diklik menjadi Biru
+                btn.classList.remove('bg-sipbg', 'text-siptext', 'border-sipborder');
+                btn.classList.add('bg-sipblue', 'text-white', 'border-sipblue');
+
+                // 3. Ambil nilai kategori yang dipilih (semua, gsg, lab, kelas)
+                const filterValue = btn.getAttribute('data-filter');
+
+                // 4. Sembunyikan atau Tampilkan Item Fasilitas
+                fasilitasItems.forEach(item => {
+                    if(filterValue === 'semua' || item.getAttribute('data-kategori') === filterValue) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // 5. Sembunyikan atau Tampilkan Header/Judul Kategori
+                kategoriHeaders.forEach(header => {
+                    if(filterValue === 'semua' || header.getAttribute('data-kategori') === filterValue) {
+                        header.style.display = 'block';
+                    } else {
+                        header.style.display = 'none';
+                    }
+                    });
+            });
+        });
+        
     </script>
     
 </body>
