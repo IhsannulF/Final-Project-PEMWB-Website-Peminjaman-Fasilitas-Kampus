@@ -15,112 +15,134 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Akun - Peminjaman Fasilitas UPNVJT</title>
     
-    <link rel="stylesheet" href="assets/css/style-register.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
     
-    <div class="auth-wrapper">
-        <div class="auth-card">
+    <link rel="stylesheet" href="assets/css/output.css">
+</head>
+<body class="bg-sipbg font-sans antialiased min-h-screen flex items-center justify-center relative selection:bg-sipblue selection:text-white p-4 lg:p-8">
+
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-sipblue/20 blur-[120px] -z-10 pointer-events-none"></div>
+
+    <div class="w-full max-w-6xl bg-sipdark/80 backdrop-blur-xl border border-sipborder rounded-3xl shadow-2xl flex flex-col-reverse lg:flex-row overflow-hidden">
+        
+        <div class="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative">
             
-            <div class="form-side">
-                <header class="nav-header">
-                    <div class="logo">
-                        <h4 style="color: #64748B; font-weight: 700; margin: 0;">Peminjaman Fasilitas UPNVJT</h4>
-                    </div>
-                    <nav class="nav-links">
-                        <a href="index.php" class="nav-item">Beranda</a>
-                    </nav>
-                </header>
+            <header class="flex justify-between items-center mb-10">
+                <h4 class="text-siptext font-bold text-sm tracking-wide">SI-PINJAM UPNVJT</h4>
+                <a href="index.php" class="text-sm font-semibold text-sipblue hover:text-white transition">Beranda</a>
+            </header>
 
-                <div class="content-body">
-                    <p class="sub-title">MEMULAI PEMINJAMAN</p>
-                    <h1 class="main-title">Buat Akun Baru<span class="title-dot"></span></h1>
-                    <p class="switch-form">Sudah Punya Akun? <a href="login.php" class="link-action">Log In</a></p>
-
-                    <?php if (isset($_SESSION['error'])) : ?>
-                        <div class="alert-error">
-                            <i class="fas fa-exclamation-circle"></i> 
-                            <?php 
-                                echo $_SESSION['error']; 
-                                unset($_SESSION['error']); 
-                            ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <form action="proses/proses_register.php" method="POST" class="register-form">
-                        
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label for="identitas">NPM / NIP / NIK</label>
-                                <div class="input-wrapper">
-                                    <input type="text" id="identitas" name="identitas" placeholder="Misal: 24082010xxx" required autocomplete="off">
-                                    <i class="fas fa-id-card input-icon"></i>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label for="nama_lengkap">Nama Lengkap</label>
-                                <div class="input-wrapper">
-                                    <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Sesuai KTP/KTM" required autocomplete="off">
-                                    <i class="fas fa-user input-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group">
-                            <label for="email">Email Aktif</label>
-                            <div class="input-wrapper">
-                                <input type="email" id="email" name="email" placeholder="email@student.upnjatim.ac.id" required autocomplete="off">
-                                <i class="fas fa-envelope input-icon"></i>
-                            </div>
-                        </div>
-
-                        <div class="input-group">
-                    <div class="label-row">
-                        <label for="password">Kata Sandi</label>
-                    </div>
-                    <div class="input-wrapper">
-                        <input type="password" id="password" name="password" placeholder="•••••••••" required>
-                        <i class="fas fa-eye toggle-password"></i>
-                    </div>
-                </div>
-
-                        <div class="input-group" style="margin-bottom: 10px;">
-                            <label for="role" style="display: block; color: var(--color-slate); margin-bottom: 8px; font-size: 14px;">Daftar Sebagai</label>
-                            <div class="input-wrapper">
-                                <select id="role" name="role" style="width: 100%; background-color: transparent; color: white; border: 1px solid #334155; padding: 14px 45px 14px 15px; border-radius: 8px; outline: none; appearance: none; cursor: pointer; font-family: inherit;" required>
-                                    <option value="mahasiswa" style="color: #1F1F1F;">Mahasiswa UPN "Veteran" Jatim</option>
-                                    <option value="umum" style="color: #1F1F1F;">Pihak Eksternal / Umum</option>
-                                </select>
-                                <i class="fas fa-chevron-down input-icon"></i>
-                            </div>
-                        </div>
-                        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 1px;">
-                            <a href="login.php" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px; border: 1px solid #64748B; border-radius: 8px; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 15px; background-color: transparent; transition: 0.3s;" onmouseover="this.style.backgroundColor='rgba(100, 116, 139, 0.2)'; this.style.borderColor='#FFFFFF';" onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#64748B';">
-                                Kembali
-                            </a>
-                            <button type="submit" name="submit_register" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px; border: none; border-radius: 8px; color: #FFFFFF; background-color: #009EF7; font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.3s;" onmouseover="this.style.backgroundColor='#008be5';" onmouseout="this.style.backgroundColor='#009EF7';">Daftar
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div class="mb-10">
+                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Memulai Peminjaman</p>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Buat Akun Baru<span class="text-sipblue">.</span></h1>
+                <p class="text-sm text-siptext">Sudah Punya Akun? <a href="login.php" class="text-sipblue hover:text-white font-semibold transition">Log In</a></p>
             </div>
 
-            <div class="image-side">
-                <div class="image-panel">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" alt="Background" class="bg-image">
+            <?php if (isset($_SESSION['error'])) : ?>
+                <div class="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-xl mb-6 text-sm flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle mt-0.5"></i> 
+                    <div>
+                        <?php 
+                            echo $_SESSION['error']; 
+                            unset($_SESSION['error']); 
+                        ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <form action="proses/proses_register.php" method="POST" class="space-y-5">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="identitas" class="block text-xs font-medium text-gray-300 mb-2">NPM / NIP / NIK</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-id-card text-siptext"></i>
+                            </div>
+                            <input type="text" id="identitas" name="identitas" placeholder="Misal: 24082010xxx" required autocomplete="off" 
+                                class="w-full bg-sipbg border border-sipborder rounded-xl pl-11 pr-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all text-sm">
+                        </div>
+                    </div>
                     
-                    <div class="wavy-overlay">
-                        <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="wavy-line">
-                            <path d="M0,0 C40,20 60,-20 100,0 L100,100 L0,100 Z" class="wave-path"></path>
-                        </svg>
+                    <div>
+                        <label for="nama_lengkap" class="block text-xs font-medium text-gray-300 mb-2">Nama Lengkap</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-siptext"></i>
+                            </div>
+                            <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Sesuai KTP/KTM" required autocomplete="off" 
+                                class="w-full bg-sipbg border border-sipborder rounded-xl pl-11 pr-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all text-sm">
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                <div>
+                    <label for="email" class="block text-xs font-medium text-gray-300 mb-2">Email Aktif</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-siptext"></i>
+                        </div>
+                        <input type="email" id="email" name="email" placeholder="email@student.upnjatim.ac.id" required autocomplete="off" 
+                            class="w-full bg-sipbg border border-sipborder rounded-xl pl-11 pr-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-xs font-medium text-gray-300 mb-2">Kata Sandi</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-siptext"></i>
+                        </div>
+                        <input type="password" id="password" name="password" placeholder="•••••••••" required 
+                            class="w-full bg-sipbg border border-sipborder rounded-xl pl-11 pr-12 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all text-sm">
+                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                            <i class="fas fa-eye text-siptext hover:text-white cursor-pointer transition toggle-password"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="role" class="block text-xs font-medium text-gray-300 mb-2">Daftar Sebagai</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-user-tag text-siptext"></i>
+                        </div>
+                        <select id="role" name="role" required 
+                            class="w-full bg-sipbg border border-sipborder rounded-xl pl-11 pr-10 py-3 text-white focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all appearance-none text-sm cursor-pointer">
+                            <option value="mahasiswa" class="bg-sipdark">Mahasiswa UPN "Veteran" Jatim</option>
+                            <option value="umum" class="bg-sipdark">Pihak Eksternal / Umum</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                            <i class="fas fa-chevron-down text-siptext text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <a href="login.php" class="flex-1 flex justify-center items-center py-3.5 rounded-xl border border-siptext/50 text-white font-semibold hover:bg-siptext/20 hover:border-white transition-all text-sm">
+                        Kembali
+                    </a>
+                    <button type="submit" name="submit_register" class="flex-1 flex justify-center items-center py-3.5 rounded-xl bg-sipblue hover:bg-sipbluehover text-white font-semibold shadow-lg shadow-sipblue/30 transition-all active:scale-[0.98] text-sm">
+                        Daftar Akun
+                    </button>
+                </div>
+
+            </form>
         </div>
+
+        <div class="w-full lg:w-1/2 min-h-[300px] lg:min-h-full relative overflow-hidden hidden md:block">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" alt="Teknologi" class="absolute inset-0 w-full h-full object-cover">
+            
+            <div class="absolute inset-0 bg-sipdark/60 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-sipdark via-transparent to-transparent"></div>
+
+            <div class="absolute bottom-12 left-12 right-12 z-10">
+                <h3 class="text-3xl font-bold text-white mb-3">Manajemen Fasilitas yang Efisien</h3>
+                <p class="text-gray-300 text-sm leading-relaxed">Sistem terintegrasi untuk menjadwalkan dan mengelola penggunaan seluruh fasilitas di lingkungan kampus secara *real-time*.</p>
+            </div>
+        </div>
+
     </div>
 
     <script src="assets/js/script-register.js"></script>

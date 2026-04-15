@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ATURAN KHUSUS UNTUK ELEMEN YANG DIBUAT OLEH JAVASCRIPT */
+@layer components {
+  /* Efek saat kartu fasilitas diklik (Active) */
+  .facility-card.active {
+    @apply border-sipblue bg-sipblue/10 shadow-[0_0_15px_rgba(0,158,247,0.15)] ring-1 ring-sipblue;
+  }
+
+  /* Desain kotak tanggal di kalender */
+  #calendarDays > div {
+    @apply aspect-square flex items-center justify-center rounded-xl border border-sipborder text-gray-300 font-medium transition-all duration-200 cursor-pointer;
+  }
+  
+  /* Tanggal kosong (bulan lalu/depan) */
+  #calendarDays > div:empty {
+    @apply border-none cursor-default bg-transparent;
+  }
+
+  /* Tanggal Tersedia (Hijau) */
+  #calendarDays > .available {
+    @apply bg-[#00AE1C]/10 border-[#00AE1C]/30 text-[#00AE1C] hover:bg-[#00AE1C]/20 hover:border-[#00AE1C];
+  }
+
+  /* Tanggal Penuh (Merah) */
+  #calendarDays > .booked {
+    @apply bg-sipred/10 border-sipred/30 text-sipred opacity-60;
+    /* JURUS KUNCI: Membuat elemen tidak bisa diklik sama sekali */
+    pointer-events: none; 
+    cursor: not-allowed;
+  }
+}

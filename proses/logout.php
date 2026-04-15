@@ -10,4 +10,4 @@ session_destroy();
 // Mengarahkan pengguna kembali ke Landing Page (index.php)
 header("Location: ../index.php");
 exit();
-?>
+?>     
