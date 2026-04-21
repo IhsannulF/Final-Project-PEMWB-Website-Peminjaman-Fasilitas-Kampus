@@ -9,11 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentMonth = date.getMonth();
     let currentYear = date.getFullYear();
     
-    // Ambil ID fasilitas pertama saat halaman dimuat
+    // Inisialisasi awal: Ambil ID dari fasilitas paling atas
     let currentFacilityId = null;
     if (facilityCards.length > 0) {
         currentFacilityId = facilityCards[0].getAttribute("data-id");
-        facilityCards[0].classList.add("border-sipblue", "bg-sipblue/5");
+        // Pastikan fasilitas pertama berwarna biru saat awal dimuat
+        facilityCards[0].classList.add("border-sipblue", "bg-sipblue/5", "active");
     }
   
     const monthNames = [
@@ -21,26 +22,20 @@ document.addEventListener("DOMContentLoaded", function () {
       "Juli", "Agustus", "September", "Oktober", "November", "Desember",
     ];
   
-    // Fungsi Mengambil Data dari Database via API
     function fetchAndRenderCalendar() {
       if (!currentFacilityId) return;
 
       const targetBulan = currentMonth + 1;
-      const cacheBuster = new Date().getTime(); // Anti-Cache
+      const cacheBuster = new Date().getTime(); 
       const apiUrl = `proses/api_jadwal.php?id_fasilitas=${currentFacilityId}&bulan=${targetBulan}&tahun=${currentYear}&_t=${cacheBuster}`;
   
       fetch(apiUrl)
         .then((response) => response.json())
         .then((data) => {
-          // JURUS KUNCI: Paksa pastikan data yang diterima adalah Array berisi Angka murni
           let bookedDates = [];
           if (Array.isArray(data)) {
               bookedDates = data.map(Number); 
           }
-          
-          // Tampilkan log di Console Browser untuk kita pantau
-          console.log(`Cek Jadwal -> Fasilitas ID: ${currentFacilityId} | Bulan: ${targetBulan} | Tanggal Merah:`, bookedDates);
-          
           renderCalendar(bookedDates);
         })
         .catch((error) => {
@@ -49,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
   
-    // Fungsi Menggambar Kalender
     function renderCalendar(bookedDates) {
       calendarDays.innerHTML = "";
       monthYearText.innerText = `${monthNames[currentMonth]} ${currentYear}`;
@@ -59,34 +53,28 @@ document.addEventListener("DOMContentLoaded", function () {
   
       let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   
-      // Bikin kotak kosong untuk awal bulan
       for (let i = 0; i < firstDay; i++) {
         const emptyDiv = document.createElement("div");
         emptyDiv.classList.add("empty");
         calendarDays.appendChild(emptyDiv);
       }
   
-      // Bikin kotak tanggal
       for (let day = 1; day <= daysInMonth; day++) {
         const dayDiv = document.createElement("div");
         dayDiv.innerText = day;
         
-        // Ubah day menjadi angka mutlak
         const currentDayNum = parseInt(day, 10);
 
-        // LOGIKA PENENTU WARNA
         if (bookedDates.includes(currentDayNum)) {
-          dayDiv.classList.add("booked"); // Class ini akan diwarnai merah oleh Tailwind
+          dayDiv.classList.add("booked");
           dayDiv.title = "Fasilitas Penuh / Diblokir";
         } else {
-          dayDiv.classList.add("available"); // Class ini akan diwarnai hijau oleh Tailwind
+          dayDiv.classList.add("available"); 
         }
   
-        // Event Listener untuk klik
         dayDiv.addEventListener('click', function() {
             if (this.classList.contains('booked')) {
                 alert("Maaf, fasilitas pada tanggal ini sudah penuh/diblokir oleh Admin.");
-                return; 
             }
         });
   
@@ -94,10 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   
-    // Inisialisasi awal
     fetchAndRenderCalendar();
   
-    // Tombol Navigasi Bulan
     prevBtn.addEventListener("click", () => {
       currentMonth--;
       if (currentMonth < 0) { currentMonth = 11; currentYear--; }
@@ -110,18 +96,25 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchAndRenderCalendar(); 
     });
   
-    // Efek Klik Fasilitas di Kiri
+    // --- PERBAIKAN LOGIKA KLIK KARTU FASILITAS ---
     facilityCards.forEach((card) => {
       card.addEventListener("click", function () {
-        facilityCards.forEach((c) => c.classList.remove("border-sipblue", "bg-sipblue/5"));
-        this.classList.add("border-sipblue", "bg-sipblue/5");
+        
+        // 1. Hapus SEMUA indikator aktif dari SEMUA kartu
+        facilityCards.forEach((c) => {
+            c.classList.remove("border-sipblue", "bg-sipblue/5", "active");
+        });
+        
+        // 2. Beri indikator aktif HANYA pada kartu yang baru saja diklik
+        this.classList.add("border-sipblue", "bg-sipblue/5", "active");
   
+        // 3. Ganti ID fasilitas dan muat ulang kalender
         currentFacilityId = this.getAttribute("data-id");
         fetchAndRenderCalendar();
       });
     });
   
-    // Fitur Pencarian Fasilitas
+    // --- PENCARIAN FASILITAS ---
     const searchInput = document.getElementById("searchFacility");
     const kategoriSelect = document.getElementById("kategori");
     const btnSearch = document.querySelector(".btn-search-airbnb");

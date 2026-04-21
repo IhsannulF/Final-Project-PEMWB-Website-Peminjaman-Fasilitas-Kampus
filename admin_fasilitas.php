@@ -16,10 +16,37 @@ if (isset($_POST['tambah_fasilitas'])) {
     $kategori = mysqli_real_escape_string($koneksi, $_POST['kategori']);
     $kapasitas = (int)$_POST['kapasitas'];
     $ikon = mysqli_real_escape_string($koneksi, $_POST['ikon']);
+    
+    // Logika Upload Foto
+    $foto_nama = ""; // Default kosong
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+        $ektensi_diperbolehkan = array('png', 'jpg', 'jpeg', 'webp');
+        $nama_file = $_FILES['foto']['name'];
+        $x = explode('.', $nama_file);
+        $ekstensi = strtolower(end($x));
+        $ukuran = $_FILES['foto']['size'];
+        $file_tmp = $_FILES['foto']['tmp_name'];
 
-    $query = "INSERT INTO fasilitas (nama_fasilitas, kategori, kapasitas, ikon) VALUES ('$nama', '$kategori', $kapasitas, '$ikon')";
-    if (mysqli_query($koneksi, $query)) {
-        $pesan = "<div class='bg-[#00AE1C]/10 text-[#00AE1C] border border-[#00AE1C]/30 px-4 py-3 rounded-xl mb-6 flex items-center gap-3'><i class='fas fa-check-circle'></i> Berhasil menambahkan fasilitas baru!</div>";
+        if (in_array($ekstensi, $ektensi_diperbolehkan) === true) {
+            if ($ukuran < 5044070) { // Maksimal 5MB
+                // Buat nama file unik agar tidak bentrok
+                $foto_nama = time() . '_' . uniqid() . '.' . $ekstensi;
+                move_uploaded_file($file_tmp, 'assets/images/fasilitas/' . $foto_nama);
+            } else {
+                $pesan = "<div class='bg-yellow-500/10 text-yellow-500 px-4 py-3 rounded-xl mb-6'>Ukuran file terlalu besar (Maks 5MB)!</div>";
+            }
+        } else {
+            $pesan = "<div class='bg-red-500/10 text-red-500 px-4 py-3 rounded-xl mb-6'>Ekstensi gambar tidak diperbolehkan (Hanya JPG/PNG)!</div>";
+        }
+    }
+
+    // Jika tidak ada error ukuran/ekstensi, masukkan ke database
+    if (empty($pesan)) {
+        $query = "INSERT INTO fasilitas (nama_fasilitas, kategori, kapasitas, ikon, foto_fasilitas) 
+                  VALUES ('$nama', '$kategori', $kapasitas, '$ikon', '$foto_nama')";
+        if (mysqli_query($koneksi, $query)) {
+            $pesan = "<div class='bg-[#00AE1C]/10 text-[#00AE1C] border border-[#00AE1C]/30 px-4 py-3 rounded-xl mb-6 flex items-center gap-3'><i class='fas fa-check-circle'></i> Berhasil menambahkan fasilitas baru!</div>";
+        }
     }
 }
 
@@ -78,6 +105,49 @@ if (isset($_POST['buka_blokir'])) {
         $pesan = "<div class='bg-sipblue/10 text-sipblue border border-sipblue/30 px-4 py-3 rounded-xl mb-6 flex items-center gap-3'><i class='fas fa-lock-open'></i> Blokir tanggal berhasil dibuka!</div>";
     }
 }
+// --- 5. LOGIKA EDIT FASILITAS ---
+if (isset($_POST['edit_fasilitas'])) {
+    $id = (int)$_POST['id_edit'];
+    $nama = mysqli_real_escape_string($koneksi, $_POST['nama']);
+    $kategori = mysqli_real_escape_string($koneksi, $_POST['kategori']);
+    $kapasitas = (int)$_POST['kapasitas'];
+    $ikon = mysqli_real_escape_string($koneksi, $_POST['ikon']);
+    
+    // Ambil info foto lama dari database
+    $res_lama = mysqli_query($koneksi, "SELECT foto_fasilitas FROM fasilitas WHERE id_fasilitas = $id");
+    $data_lama = mysqli_fetch_assoc($res_lama);
+    $foto_final = $data_lama['foto_fasilitas'];
+
+    // Cek apakah ada upload foto baru
+    if (isset($_FILES['foto_baru']) && $_FILES['foto_baru']['error'] === 0) {
+        $nama_file = $_FILES['foto_baru']['name'];
+        $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+        
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+            $foto_baru_nama = time() . '_' . uniqid() . '.' . $ext;
+            if (move_uploaded_file($_FILES['foto_baru']['tmp_name'], 'assets/images/fasilitas/' . $foto_baru_nama)) {
+                // Hapus foto lama jika ada
+                if (!empty($foto_final) && file_exists('assets/images/fasilitas/' . $foto_final)) {
+                    unlink('assets/images/fasilitas/' . $foto_final);
+                }
+                $foto_final = $foto_baru_nama;
+            }
+        }
+    }
+
+    $query_update = "UPDATE fasilitas SET 
+                    nama_fasilitas = '$nama', 
+                    kategori = '$kategori', 
+                    kapasitas = $kapasitas, 
+                    ikon = '$ikon', 
+                    foto_fasilitas = '$foto_final' 
+                    WHERE id_fasilitas = $id";
+
+    if (mysqli_query($koneksi, $query_update)) {
+        $pesan = "<div class='bg-sipblue/10 text-sipblue border border-sipblue/30 px-4 py-3 rounded-xl mb-6 flex items-center gap-3'><i class='fas fa-check-circle'></i> Fasilitas berhasil diperbarui!</div>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -117,52 +187,62 @@ if (isset($_POST['buka_blokir'])) {
             <div class="space-y-8">
                 
                 <div class="bg-sipdark border border-sipborder rounded-3xl p-6 md:p-8 shadow-xl">
-                    <h2 class="text-lg font-bold mb-6 flex items-center gap-3"><i class="fas fa-plus-circle text-sipblue text-xl"></i> Tambah Fasilitas</h2>
-                    <form method="POST" action="">
-                        <div class="space-y-5">
-                            <div>
-                                <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Nama Fasilitas</label>
-                                <input type="text" name="nama" required class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all text-sm">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Kategori</label>
-                                    <div class="relative w-full">
-                                        <select name="kategori" required class="w-full bg-sipbg border border-sipborder rounded-xl pl-4 pr-10 py-3 text-white appearance-none focus:outline-none focus:border-sipblue transition-all text-sm cursor-pointer">
-                                            <option value="gsg" class="bg-sipdark">GSG</option>
-                                            <option value="lab" class="bg-sipdark">Lab</option>
-                                            <option value="kelas" class="bg-sipdark">Kelas</option>
-                                            <option value="rapat" class="bg-sipdark">Ruang Rapat</option>
-                                        </select>
-                                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-xs text-siptext pointer-events-none"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Kapasitas</label>
-                                    <input type="number" name="kapasitas" required class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sipblue transition-all text-sm">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Pilih Ikon Fasilitas</label>
-                                <div class="relative w-full">
-                                    <select name="ikon" required class="w-full bg-sipbg border border-sipborder rounded-xl pl-4 pr-10 py-3 text-white appearance-none focus:outline-none focus:border-sipblue transition-all text-sm cursor-pointer">
-                                        <option value="fas fa-building" class="bg-sipdark">🏢 Gedung Umum</option>
-                                        <option value="fas fa-laptop-code" class="bg-sipdark">💻 Lab Komputer / IT</option>
-                                        <option value="fas fa-chalkboard-teacher" class="bg-sipdark">👨‍🏫 Ruang Kelas / Teori</option>
-                                        <option value="fas fa-users" class="bg-sipdark">👥 Ruang Rapat / Sidang</option>
-                                        <option value="fas fa-book" class="bg-sipdark">📚 Perpustakaan / Ruang Baca</option>
-                                        <option value="fas fa-futbol" class="bg-sipdark">⚽ Fasilitas Olahraga</option>
-                                        <option value="fas fa-mosque" class="bg-sipdark">🕌 Fasilitas Ibadah</option>
-                                    </select>
-                                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-xs text-siptext pointer-events-none"></i>
-                                </div>
-                            </div>
-                            <button type="submit" name="tambah_fasilitas" class="w-full bg-sipblue hover:bg-sipbluehover text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-sipblue/30 active:scale-[0.98] mt-2">
-                                Simpan Fasilitas
-                            </button>
-                        </div>
-                    </form>
+    <h2 class="text-lg font-bold mb-6 flex items-center gap-3"><i class="fas fa-plus-circle text-sipblue text-xl"></i> Tambah Fasilitas</h2>
+    
+    <form method="POST" action="" enctype="multipart/form-data">
+        <div class="space-y-5">
+            <div>
+                <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Nama Fasilitas</label>
+                <input type="text" name="nama" required class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sipblue focus:ring-1 focus:ring-sipblue transition-all text-sm">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Kategori</label>
+                    <div class="relative w-full">
+                        <select name="kategori" required class="w-full bg-sipbg border border-sipborder rounded-xl pl-4 pr-10 py-3 text-white appearance-none focus:outline-none focus:border-sipblue transition-all text-sm cursor-pointer">
+                            <option value="gsg" class="bg-sipdark">GSG</option>
+                            <option value="lab" class="bg-sipdark">Lab</option>
+                            <option value="kelas" class="bg-sipdark">Kelas</option>
+                            <option value="rapat" class="bg-sipdark">Ruang Rapat</option>
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-xs text-siptext pointer-events-none"></i>
+                    </div>
                 </div>
+                <div>
+                    <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Kapasitas</label>
+                    <input type="number" name="kapasitas" required class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-3 text-white focus:outline-none focus:border-sipblue transition-all text-sm">
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Pilih Ikon Fasilitas</label>
+                <div class="relative w-full">
+                    <select name="ikon" required class="w-full bg-sipbg border border-sipborder rounded-xl pl-4 pr-10 py-3 text-white appearance-none focus:outline-none focus:border-sipblue transition-all text-sm cursor-pointer">
+                        <option value="fas fa-building" class="bg-sipdark">🏢 Gedung Umum</option>
+                        <option value="fas fa-laptop-code" class="bg-sipdark">💻 Lab Komputer / IT</option>
+                        <option value="fas fa-chalkboard-teacher" class="bg-sipdark">👨‍🏫 Ruang Kelas / Teori</option>
+                        <option value="fas fa-users" class="bg-sipdark">👥 Ruang Rapat / Sidang</option>
+                        <option value="fas fa-book" class="bg-sipdark">📚 Perpustakaan / Ruang Baca</option>
+                        <option value="fas fa-futbol" class="bg-sipdark">⚽ Fasilitas Olahraga</option>
+                        <option value="fas fa-mosque" class="bg-sipdark">🕌 Fasilitas Ibadah</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-xs text-siptext pointer-events-none"></i>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-siptext uppercase tracking-wider mb-2">Foto Ruangan</label>
+                <input type="file" name="foto" accept="image/png, image/jpeg, image/webp" class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-sipblue transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-sipblue/10 file:text-sipblue hover:file:bg-sipblue/20 cursor-pointer text-gray-400">
+                <p class="text-[10px] text-gray-500 mt-2"><i class="fas fa-info-circle"></i> Format: JPG, PNG, WEBP. Maksimal: 5MB.</p>
+            </div>
+            
+            <button type="submit" name="tambah_fasilitas" class="w-full bg-sipblue hover:bg-sipbluehover text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-sipblue/30 active:scale-[0.98] mt-2">
+                Simpan Fasilitas
+            </button>
+        </div>
+    </form>
+</div>
 
                 <div class="bg-sipdark border border-sipborder rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1 h-full bg-sipred"></div>
@@ -261,14 +341,25 @@ if (isset($_POST['buka_blokir'])) {
                                         </div>
                                     </div>
                                     
-                                    <form method="POST" action="" class="flex items-center ml-4 shrink-0">
-                                        <input type="hidden" name="id_hapus" value="<?= $row['id_fasilitas'] ?>">
-                                        <button type="button" onclick="konfirmasiHapus(this)" class="text-red-500 hover:text-red-400 hover:scale-110 transition-all p-2">
-                                            <i class="fas fa-trash-alt text-lg"></i>
+                                    <div class="flex items-center gap-2 ml-4 shrink-0">
+                                        <button type="button" 
+                                                onclick="bukaModalEdit('<?= $row['id_fasilitas'] ?>', '<?= addslashes($row['nama_fasilitas']) ?>', '<?= $row['kategori'] ?>', '<?= $row['kapasitas'] ?>', '<?= $row['ikon'] ?>')" 
+                                                class="text-sipblue hover:text-blue-400 hover:scale-110 transition-all p-2"
+                                                title="Edit Fasilitas">
+                                            <i class="fas fa-edit text-lg"></i>
                                         </button>
-                                        <button type="submit" name="hapus_fasilitas" class="hidden btn-submit-real"></button>
-                                    </form>
+
+                                        <form method="POST" action="" class="flex items-center">
+                                            <input type="hidden" name="id_hapus" value="<?= $row['id_fasilitas'] ?>">
+                                            <button type="button" onclick="konfirmasiHapus(this)" class="text-red-500 hover:text-red-400 hover:scale-110 transition-all p-2" title="Hapus Fasilitas">
+                                                <i class="fas fa-trash-alt text-lg"></i>
+                                            </button>
+                                            <button type="submit" name="hapus_fasilitas" class="hidden btn-submit-real"></button>
+                                        </form>
+                                    </div>
                                 </div>
+
+                                
 
                         <?php 
                             }
@@ -393,6 +484,54 @@ if (isset($_POST['buka_blokir'])) {
                 });
             });
         });
+
+        function bukaModalEdit(id, nama, kategori, kapasitas, ikon) {
+    Swal.fire({
+        title: 'Edit Fasilitas',
+        background: '#16181e',
+        color: '#ffffff',
+        html: `
+            <form id="formEditFasilitas" method="POST" enctype="multipart/form-data" class="text-left space-y-4">
+                <input type="hidden" name="id_edit" value="${id}">
+                <input type="hidden" name="edit_fasilitas" value="1">
+                
+                <div>
+                    <label class="text-xs text-gray-400 uppercase font-bold">Nama Fasilitas</label>
+                    <input type="text" name="nama" value="${nama}" class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-2 mt-1 text-white focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs text-gray-400 uppercase font-bold">Kategori</label>
+                        <select name="kategori" class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-2 mt-1 text-white">
+                            <option value="gsg" ${kategori == 'gsg' ? 'selected' : ''}>GSG</option>
+                            <option value="lab" ${kategori == 'lab' ? 'selected' : ''}>Lab</option>
+                            <option value="kelas" ${kategori == 'kelas' ? 'selected' : ''}>Kelas</option>
+                            <option value="rapat" ${kategori == 'rapat' ? 'selected' : ''}>Rapat</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 uppercase font-bold">Kapasitas</label>
+                        <input type="number" name="kapasitas" value="${kapasitas}" class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-2 mt-1 text-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-xs text-gray-400 uppercase font-bold">Ganti Foto (Kosongkan jika tidak diubah)</label>
+                    <input type="file" name="foto_baru" class="w-full bg-sipbg border border-sipborder rounded-xl px-4 py-2 mt-1 text-xs text-gray-400">
+                </div>
+            </form>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Simpan Perubahan',
+        confirmButtonColor: '#009EF7',
+        cancelButtonText: 'Batal',
+        preConfirm: () => {
+            // Submit form secara manual
+            document.getElementById('formEditFasilitas').submit();
+        }
+    });
+}
     </script>
 </body>
 </html>

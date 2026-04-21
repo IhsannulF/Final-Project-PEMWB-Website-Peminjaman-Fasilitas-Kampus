@@ -35,7 +35,7 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="mb-10">
                 <p class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Memulai Peminjaman</p>
-                <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Buat Akun Baru<span class="text-sipblue">.</span></h1>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Buat Akun Baru</h1>
                 <p class="text-sm text-siptext">Sudah Punya Akun? <a href="login.php" class="text-sipblue hover:text-white font-semibold transition">Log In</a></p>
             </div>
 

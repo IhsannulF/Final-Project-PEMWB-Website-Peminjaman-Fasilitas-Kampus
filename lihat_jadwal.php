@@ -79,10 +79,9 @@ $result_fasilitas = mysqli_query($koneksi, $query_fasilitas);
                         if(mysqli_num_rows($result_fasilitas) > 0) {
                             $is_first = true; 
                             while($row = mysqli_fetch_assoc($result_fasilitas)) { 
-                                $active_class = $is_first ? 'active' : '';
                         ?>
                         
-                        <div class="facility-card <?php echo $active_class; ?> group flex items-center p-4 rounded-2xl border border-sipborder bg-sipbg hover:border-sipblue hover:bg-sipblue/5 cursor-pointer transition-all duration-300" 
+                        <div class="facility-card group flex items-center p-4 rounded-2xl border border-sipborder bg-sipbg hover:border-sipblue hover:bg-sipblue/5 cursor-pointer transition-all duration-300" 
                              data-id="<?php echo $row['id_fasilitas']; ?>"
                              data-nama="<?php echo strtolower($row['nama_fasilitas']); ?>"
                              data-kategori="<?php echo strtolower($row['kategori']); ?>">

@@ -199,6 +199,250 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </section>
+    <section id="showcase" class="py-24 relative z-10 bg-sipbg overflow-hidden">
+        <div class="container mx-auto px-6 md:px-12 lg:px-20 max-w-[1600px]">
+            
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div class="max-w-2xl">
+                    <h2 class="text-sipblue font-bold tracking-widest uppercase text-sm mb-3">Galeri UPNVJT</h2>
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Fasilitas Kampus <span class="text-transparent bg-clip-text bg-gradient-to-r from-sipblue to-blue-400">Unggulan</span></h3>
+                    <p class="text-siptext text-base leading-relaxed">
+                        Eksplorasi berbagai ruang representatif yang siap mendukung setiap agenda akademik, organisasi, maupun kegiatan kolaboratif Anda.
+                    </p>
+                </div>
+            </div>
+        </div>
 
+        <div id="carouselFasilitas" class="flex overflow-x-auto snap-x snap-mandatory gap-6 px-6 md:px-12 lg:px-20 pb-12 pt-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-sipdark [&::-webkit-scrollbar-thumb]:bg-sipborder [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-siptext transition-all">
+            
+            <a href="detail_fasilitas.php?id=1" class="snap-start shrink-0 w-[85vw] md:w-[600px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-2xl border border-sipborder/50 hover:border-sipblue transition-all duration-500">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop" alt="Gedung Serba Guna" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 1000</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">GSG</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Gedung Serba Guna (GSG)</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Pusat kegiatan utama kampus dengan kapasitas masif, cocok untuk seminar nasional, yudisium, maupun pementasan besar.
+                    </p>
+                </div>
+            </a>
+
+            <a href="detail_fasilitas.php?id=17" class="snap-start shrink-0 w-[80vw] md:w-[400px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl border border-sipborder/50 hover:border-sipblue transition-all duration-500 block">
+                <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1000&auto=format&fit=crop" alt="Giri Loka" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 500</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">GSG / EVENT</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Giri Loka</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Fasilitas serbaguna yang representatif untuk berbagai kegiatan mahasiswa dan acara kampus berskala menengah.
+                    </p>
+                </div>
+            </a>
+
+            <a href="detail_fasilitas.php?id=12" class="snap-start shrink-0 w-[80vw] md:w-[400px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl border border-sipborder/50 hover:border-sipblue transition-all duration-500 block">
+                <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?q=80&w=1000&auto=format&fit=crop" alt="Ruang Seminar GKB" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 200</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">SEMINAR</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Ruang Seminar GKB</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Ruang auditorium mini yang nyaman, sangat ideal untuk kuliah tamu, workshop, dan pemaparan materi.
+                    </p>
+                </div>
+            </a>
+
+            <a href="detail_fasilitas.php?id=18" class="snap-start shrink-0 w-[80vw] md:w-[400px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl border border-sipborder/50 hover:border-sipblue transition-all duration-500 block">
+                <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop" alt="Perpustakaan Giri Santika" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 500</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">PERPUSTAKAAN</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Perpustakaan Giri Santika</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Pusat literatur dan ruang baca tenang yang mendukung produktivitas riset seluruh civitas akademika.
+                    </p>
+                </div>
+            </a>
+
+            <a href="detail_fasilitas.php?id=2" class="snap-start shrink-0 w-[80vw] md:w-[400px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl border border-sipborder/50 hover:border-sipblue transition-all duration-500 block">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000&auto=format&fit=crop" alt="Lab Komputer FIK 1" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 40</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">LAB</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Lab Komputer FIK 1</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Fasilitas praktikum dengan PC spesifikasi terkini untuk menunjang kegiatan perkuliahan IT dan desain.
+                    </p>
+                </div>
+            </a>
+
+            <a href="detail_fasilitas.php?id=3" class="snap-start shrink-0 w-[80vw] md:w-[400px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-xl border border-sipborder/50 hover:border-sipblue transition-all duration-500 block">
+                <img src="https://images.unsplash.com/photo-1577415124269-ce1140073282?q=80&w=1000&auto=format&fit=crop" alt="Ruang Kelas Kuliah Bersama" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 60</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">KELAS</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Ruang Kelas Kuliah Bersama</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Ruang kelas standar yang luas, dilengkapi pendingin ruangan dan proyektor untuk kenyamanan belajar mengajar.
+                    </p>
+                </div>
+            </a>
+
+            <a href="detail_fasilitas.php?id=1" class="snap-start shrink-0 w-[85vw] md:w-[600px] h-[400px] relative rounded-3xl overflow-hidden group cursor-pointer shadow-2xl border border-sipborder/50 hover:border-sipblue transition-all duration-500 block">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop" alt="Gedung Serba Guna" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f1115] via-[#0f1115]/50 to-transparent opacity-90"></div>
+                
+                <div class="absolute bottom-0 left-0 w-full p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="px-3 py-1 text-xs font-bold bg-sipblue text-white rounded-full shadow-lg shadow-sipblue/30"><i class="fas fa-users mr-1"></i> 1000</span>
+                        <span class="px-3 py-1 text-xs font-bold bg-white/10 backdrop-blur-md text-white rounded-full border border-white/20">GSG</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Gedung Serba Guna (GSG)</h4>
+                    <p class="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-2">
+                        Pusat kegiatan utama kampus dengan kapasitas masif, cocok untuk seminar nasional, yudisium, maupun pementasan besar.
+                    </p>
+                </div>
+            </a>
+            
+            <div class="snap-start shrink-0 w-6 md:w-12"></div>
+
+        </div>
+        
+        <div class="container mx-auto px-6 md:px-12 lg:px-20 max-w-[1600px] mt-8 text-center md:text-left">
+            <a href="lihat_jadwal.php" class="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-sipdark border border-sipborder text-white text-sm font-semibold hover:bg-sipblue hover:border-sipblue hover:shadow-lg hover:shadow-sipblue/30 transition-all">
+                Cek Ketersediaan Selengkapnya <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="faq" class="py-24 relative z-10 bg-sipbg border-t border-sipborder/30">
+        <div class="container mx-auto px-6 md:px-12 lg:px-20 max-w-[1000px]">
+            
+            <div class="text-center mb-16">
+                <h2 class="text-sipblue font-bold tracking-widest uppercase text-sm mb-3">Bantuan & Informasi</h2>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Pertanyaan yang Sering <span class="text-transparent bg-clip-text bg-gradient-to-r from-sipblue to-blue-400">Diajukan</span></h3>
+                <p class="text-siptext text-base">
+                    Temukan jawaban cepat untuk prosedur peminjaman fasilitas di lingkungan UPNVJT.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                
+                <details class="group bg-sipdark border border-sipborder rounded-2xl [&_summary::-webkit-details-marker]:hidden hover:border-sipblue/50 transition-colors">
+                    <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">
+                        <span class="pr-6">Siapa saja yang diperbolehkan meminjam fasilitas melalui SI-PINJAM?</span>
+                        <span class="transition-transform duration-300 group-open:-rotate-180 text-sipblue shrink-0">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-siptext text-sm leading-relaxed border-t border-sipborder/50 pt-4 mt-2">
+                        Peminjaman fasilitas difokuskan untuk seluruh civitas akademika kampus, termasuk mahasiswa (melalui pengurus BEM, Ormawa, atau UKM), dosen, dan tenaga kependidikan untuk keperluan akademik maupun non-akademik yang resmi.
+                    </div>
+                </details>
+
+                <details class="group bg-sipdark border border-sipborder rounded-2xl [&_summary::-webkit-details-marker]:hidden hover:border-sipblue/50 transition-colors">
+                    <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">
+                        <span class="pr-6">Bagaimana alur persetujuan peminjaman ruangan?</span>
+                        <span class="transition-transform duration-300 group-open:-rotate-180 text-sipblue shrink-0">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-siptext text-sm leading-relaxed border-t border-sipborder/50 pt-4 mt-2">
+                        Setelah Anda mengajukan form peminjaman melalui sistem, status akan menjadi "Menunggu Verifikasi". Admin fasilitas akan mengecek ketersediaan jadwal dan keabsahan kegiatan. Jika disetujui, status akan berubah menjadi "Disetujui" dan ruangan siap digunakan.
+                    </div>
+                </details>
+
+                <details class="group bg-sipdark border border-sipborder rounded-2xl [&_summary::-webkit-details-marker]:hidden hover:border-sipblue/50 transition-colors">
+                    <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">
+                        <span class="pr-6">H-Berapa maksimal saya harus mengajukan peminjaman?</span>
+                        <span class="transition-transform duration-300 group-open:-rotate-180 text-sipblue shrink-0">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-siptext text-sm leading-relaxed border-t border-sipborder/50 pt-4 mt-2">
+                        Sangat disarankan untuk mengajukan peminjaman maksimal H-14 sebelum acara berlangsung. Hal ini memberikan waktu yang cukup bagi Admin untuk memverifikasi jadwal dan memastikan tidak ada bentrok dengan kegiatan rektorat atau fakultas lainnya.
+                    </div>
+                </details>
+
+                <details class="group bg-sipdark border border-sipborder rounded-2xl [&_summary::-webkit-details-marker]:hidden hover:border-sipblue/50 transition-colors">
+                    <summary class="flex items-center justify-between cursor-pointer p-6 font-semibold text-white">
+                        <span class="pr-6">Apakah saya bisa membatalkan jadwal yang sudah disetujui?</span>
+                        <span class="transition-transform duration-300 group-open:-rotate-180 text-sipblue shrink-0">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-siptext text-sm leading-relaxed border-t border-sipborder/50 pt-4 mt-2">
+                        Tentu bisa. Pembatalan dapat dilakukan langsung melalui menu Dashboard pengguna Anda. Mohon lakukan pembatalan Maksimal H agar jadwal ruangan tersebut dapat dikembalikan menjadi "Tersedia" dan bisa digunakan oleh pihak lain yang membutuhkan.
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const carousel = document.getElementById('carouselFasilitas');
+            if (!carousel) return;
+
+            let autoScrollTimer;
+            const scrollInterval = 2000; // Waktu dalam milidetik untuk setiap geseran otomatis
+
+            function startAutoScroll() {
+                autoScrollTimer = setInterval(() => {
+                    // Hitung batas maksimal area yang bisa di-scroll
+                    const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+
+                    // Jika posisi scroll sudah mencapai ujung kanan (mentok)
+                    if (carousel.scrollLeft >= maxScrollLeft - 10) {
+                        // Putar balik ke paling kiri dengan mulus
+                        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        // Geser ke kanan seukuran kira-kira 1 kartu (400px)
+                        carousel.scrollBy({ left: 400, behavior: 'smooth' });
+                    }
+                }, scrollInterval);
+            }
+
+            function stopAutoScroll() {
+                clearInterval(autoScrollTimer);
+            }
+
+            // Jalankan otomatis saat halaman pertama kali dibuka
+            startAutoScroll();
+
+            // PENTING: Hentikan scroll saat mouse diarahkan ke kartu (supaya gampang diklik)
+            carousel.addEventListener('mouseenter', stopAutoScroll);
+            carousel.addEventListener('mouseleave', startAutoScroll);
+
+            // Supaya ramah juga di HP (berhenti saat disentuh jari)
+            carousel.addEventListener('touchstart', stopAutoScroll, {passive: true});
+            carousel.addEventListener('touchend', startAutoScroll);
+        });
+    </script>
     </body>
+    
 </html>
